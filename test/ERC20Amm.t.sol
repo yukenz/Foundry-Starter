@@ -26,11 +26,11 @@ contract AMMC {
         uint256 srcBalance = src.balanceOf(address(this));
         uint256 dstBalance = dst.balanceOf(address(this));
 
+        require(dstBalance >= amount, "LP tidak tersedia");
+
         uint256 dstNew = k / (srcBalance + amount);
         uint256 deltaNew = dstBalance - dstNew;
         console.log("Delta New = %s", deltaNew);
-
-        require(dst.balanceOf(address(this)) >= deltaNew, "LP tidak memadai");
 
         src.transferFrom(msg.sender, address(this), amount);
         dst.transfer(msg.sender, deltaNew);
