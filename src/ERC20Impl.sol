@@ -10,7 +10,7 @@ contract ERC20Impl is ERC20 {
     }
 
     // For USD
-    function decimals() public view override returns (uint8) {
+    function decimals() public pure override returns (uint8) {
         return 6;
     }
 }
