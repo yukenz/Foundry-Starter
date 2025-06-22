@@ -7,6 +7,7 @@ forge clean
 rem #### Profiling
 set FOUNDRY_PROFILE=default
 set FOUNDRY_PROFILE=optimize
+set FOUNDRY_PROFILE=monad
 
 rem #### Docs
 forge doc --serve --port 4000
@@ -83,6 +84,10 @@ cast nonce 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url %LOCALHOST_RPC_U
 
 cast code 0x5FbDB2315678afecb367f032d93F642f64180aa3 --rpc-url %LOCALHOST_RPC_URL%
 cast codesize  0x5FbDB2315678afecb367f032d93F642f64180aa3 --rpc-url %LOCALHOST_RPC_URL%
+
+rem ####========== Verify
+set FOUNDRY_PROFILE=monad
+forge verify-contract 0x166dFF769A460f7730762F32A4DA3FEeB3Bc35B8 ERC20Impl --verifier sourcify --verifier-url https://sourcify-api-monad.blockvision.org --rpc-url %MONAD_RPC_URL%
 
 rem ####========== Anvil
 anvil --odyssey --optimism

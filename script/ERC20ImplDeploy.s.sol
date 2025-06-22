@@ -13,6 +13,7 @@ contract ERC20ImplScript is Script {
 
         // Get deployer account from private key
 
+        // read dotEnv
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         address deployer = vm.addr(deployerPrivateKey);
 
