@@ -61,11 +61,22 @@ contract ERC20AmmTest is Test {
         ammc = new AMMC();
     }
 
+    function test_selectorLowLevelCall() public {
 
-    function test_varifDeploy() public {
+        vm.prank(MINTER);
+
+        bytes memory payload = abi.encodeWithSignature("balanceOf(address)", MINTER);
+        (bool success, bytes memory returnData) = address(A).call(payload);
+        (uint256 data) = abi.decode(returnData,(uint256));
+
+        console.log("%s", data);
+    }
+
+
+    function test_ammMechanism() public {
         console.log("Start Test");
 
-        // decimal harusnya 6 untuk USD
+        // Decimal harusnya 6 untuk USD
         assertEq(A.decimals(), 6, "Decimal A tidak 6");
         assertEq(B.decimals(), 6, "Decimal B tidak 6");
 
