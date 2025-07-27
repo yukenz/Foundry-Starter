@@ -5,12 +5,12 @@ import {ERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.s
 
 
 contract ERC20Impl is ERC20 {
-    constructor() ERC20("We Can", "WCAN") {
-        super._mint(msg.sender,type(uint256).max);
+    constructor() ERC20("IDR Coin", "IDRC") {
+        super._mint(msg.sender, type(uint256).max);
     }
 
-    // For USD
+    // For IDR
     function decimals() public pure override returns (uint8) {
-        return 6;
+        return 2;
     }
 }

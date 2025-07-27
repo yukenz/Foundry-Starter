@@ -149,8 +149,24 @@ forge verify-contract 0xc6fde9210e669e0695dc2078b516e88f296cd209 AgeVerifier --v
 rem ======== Let's Commit
 cast block-number --rpc-url http://blockdev.aone.my.id:8545
 set LOCALHOST_RPC_URL=http://localhost:8545
+set LOCALHOST_RPC_URL=http://blockdev.aone.my.id:8545
 forge create src/blockdev-last/LetsCommit.sol:LetsCommit --account index0 --rpc-url %LOCALHOST_RPC_URL% --broadcast
 cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "createEvent()" --rpc-url %LOCALHOST_RPC_URL%
 cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "claim()" --rpc-url %LOCALHOST_RPC_URL%
 cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "enrollAndAttend()" --rpc-url %LOCALHOST_RPC_URL%
 forge script script/IEventSetupTest.s.sol --account index0 --broadcast --rpc-url %LOCALHOST_RPC_URL%
+
+rem ======== Tap2Pay
+forge create src/ERC20Impl.sol:ERC20Impl --account index0
+forge create src/EIP712Impl.sol:EIP712Impl --broadcast --account index0
+cast send 0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd --account index0 --value 1000000000000000000
+cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "approve(address,uint256)" "0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd" "2000000"
+
+rem ========== base fee 95238095 * 21000 (unit gas plain eth transfer) = $0.01
+rem ========== gas price 1 GWEI / 1000000000 WEI / $0.00
+anvil --block-base-fee-per-gas 95238095 --gas-price 1
+forge script script/Walle.s.sol --broadcast --rpc-url http://localhost:8545
+cast gas-price
+
+cast balance 0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd
+cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "allowance(address,address)" 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd

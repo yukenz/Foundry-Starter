@@ -2,6 +2,7 @@
 pragma solidity ^0.8.28;
 
 import {IEventIndexer} from "./IEventIndexer.sol";
+import {SafeMath} from "../../lib/openzeppelin-contracts/contracts/utils/math/SafeMath.sol";
 
 contract LetsCommit is IEventIndexer {
 
@@ -75,17 +76,17 @@ contract LetsCommit is IEventIndexer {
             tag: ["blockchain", "cryptocurrency", "summit", '', '']
         });
 
-        // Sesi untuk Event 2 (Blockchain Summit) - ON GOING (10 sesi)
-        emit CreateSession(2, 1, "Introduction to Blockchain Technology", block.timestamp - 7 days, block.timestamp - 6 days);
-        emit CreateSession(2, 2, "Decentralized Finance: A New Era of Banking", block.timestamp - 6 days, block.timestamp - 5 days);
-        emit CreateSession(2, 3, "Blockchain Security: Protecting Your Assets", block.timestamp - 5 days, block.timestamp - 4 days);
-        emit CreateSession(2, 4, "NFTs and Digital Ownership", block.timestamp - 4 days, block.timestamp - 3 days);
-        emit CreateSession(2, 5, "Smart Contracts: Automating the Future", block.timestamp - 3 days, block.timestamp - 2 days);
-        emit CreateSession(2, 6, "Blockchain for Supply Chain Management", block.timestamp - 2 days, block.timestamp - 1 days);
-        emit CreateSession(2, 7, "The Rise of Cryptocurrencies", block.timestamp - 1 days, block.timestamp);
-        emit CreateSession(2, 8, "Regulations in the Blockchain Space", block.timestamp, block.timestamp + 1 days);
-        emit CreateSession(2, 9, "Building Blockchain Applications", block.timestamp + 1 days, block.timestamp + 2 days);
-        emit CreateSession(2, 10, "Future Trends in Blockchain Technology", block.timestamp + 2 days, block.timestamp + 3 days);
+        /*Attend*/
+        emit CreateSession(2, 1, "Introduction to Blockchain Technology", block.timestamp - 1 days, block.timestamp);
+        emit CreateSession(2, 2, "Decentralized Finance: A New Era of Banking", block.timestamp, block.timestamp + 1 days);
+        emit CreateSession(2, 3, "Blockchain Security: Protecting Your Assets", block.timestamp + 1 days, block.timestamp + 2 days);
+        emit CreateSession(2, 4, "NFTs and Digital Ownership", block.timestamp + 7 days, block.timestamp + 8 days);
+        emit CreateSession(2, 5, "Smart Contracts: Automating the Future", block.timestamp + 8 days, block.timestamp + 9 days);
+        emit CreateSession(2, 6, "Blockchain for Supply Chain Management", block.timestamp + 9 days, block.timestamp + 10 days);
+        emit CreateSession(2, 7, "The Rise of Cryptocurrencies", block.timestamp + 10 days, block.timestamp + 11 days);
+        emit CreateSession(2, 8, "Regulations in the Blockchain Space", block.timestamp + 11 days, block.timestamp + 12 days);
+        emit CreateSession(2, 9, "Building Blockchain Applications", block.timestamp + 12 days, block.timestamp + 13 days);
+        emit CreateSession(2, 10, "Future Trends in Blockchain Technology", block.timestamp + 13 days, block.timestamp + 14 days);
 
         // Enroll for Event 2 (Blockchain Summit) - ON GOING
         emit EnrollEvent(2, address(0x21), 100_000 + 100_000); // Participant 1
@@ -103,6 +104,10 @@ contract LetsCommit is IEventIndexer {
         emit GenerateSessionToken(2, 3, "token_session_3"); // Token untuk sesi 3
         emit GenerateSessionToken(2, 4, "token_session_4"); // Token untuk sesi 4
         emit GenerateSessionToken(2, 5, "token_session_5"); // Token untuk sesi 5
+
+        emit AttendEventSession(2, 1, address(0x21), "token_session_1"); // Participant 1 attends Session 1
+        emit AttendEventSession(2, 2, address(0x21), "token_session_2"); // Participant 1 attends Session 2
+        emit AttendEventSession(2, 1, address(0x22), "token_session_1"); // Participant 2 attends Session 1
 
     }
 
@@ -147,16 +152,24 @@ contract LetsCommit is IEventIndexer {
         emit EnrollEvent(3, address(0x35), 75_000 + 75_000); // Participant 5
 
         // Organizer First Claim for Event 3 (Music Fest 2025) - FINISHED
-        emit OrganizerFirstClaim(3, address(0x03), 375_000); // Organizer claims 50% from total funds
+        emit OrganizerFirstClaim(3, address(0x03), 187_500); // Organizer claims 50% from total funds
 
         // Generate Session Tokens for Event 3 (Music Fest 2025) - FINISHED
+        emit SetSessionCode(3, 1, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 1
         emit GenerateSessionToken(3, 1, "token_session_1"); // Token untuk sesi 1
+        emit SetSessionCode(3, 2, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 2
         emit GenerateSessionToken(3, 2, "token_session_2"); // Token untuk sesi 2
+        emit SetSessionCode(3, 3, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 3
         emit GenerateSessionToken(3, 3, "token_session_3"); // Token untuk sesi 3
+        emit SetSessionCode(3, 4, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 4
         emit GenerateSessionToken(3, 4, "token_session_4"); // Token untuk sesi 4
+        emit SetSessionCode(3, 5, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 5
         emit GenerateSessionToken(3, 5, "token_session_5"); // Token untuk sesi 5
+        emit SetSessionCode(3, 6, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 6
         emit GenerateSessionToken(3, 6, "token_session_6"); // Token untuk sesi 6
+        emit SetSessionCode(3, 7, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 7
         emit GenerateSessionToken(3, 7, "token_session_7"); // Token untuk sesi 7
+        emit SetSessionCode(3, 8, address(0x03), SafeMath.div(187_500,8)); // Organizer sets code for Session 8
         emit GenerateSessionToken(3, 8, "token_session_8"); // Token untuk sesi 8
 
         // Attend for Event 3 (Music Fest 2025) - FINISHED (8 sesi dengan token)
