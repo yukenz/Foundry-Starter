@@ -30,12 +30,9 @@ contract EIP712Impl is EIP712 {
     bytes32 private immutable CARD_SELFSERVICE_TYPED_DATA_HASH;
     bytes32 private immutable CARD_REQUEST_PAYMENT_TYPED_DATA_HASH;
 
-    ERC20 private immutable IDRX;
-
     constructor() EIP712("Walle", "1") {
         CARD_SELFSERVICE_TYPED_DATA_HASH = keccak256("CardSelfService(uint8 operation,bytes32 hashCard,bytes32 hashPin)");
         CARD_REQUEST_PAYMENT_TYPED_DATA_HASH = keccak256("CardRequestPayment(bytes32 hashCard,bytes32 hashPin,string merchantId,string merchantKey,string terminalId,string terminalKey,uint256 paymentAmount)");
-        IDRX = ERC20(address(0));
     }
 
     function _hashTypedData(CardRequestPayment memory typedData) internal view returns (bytes32){

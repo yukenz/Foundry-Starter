@@ -157,10 +157,20 @@ cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "enrollAnd
 forge script script/IEventSetupTest.s.sol --account index0 --broadcast --rpc-url %LOCALHOST_RPC_URL%
 
 rem ======== Tap2Pay
-forge create src/ERC20Impl.sol:ERC20Impl --account index0
 forge create src/EIP712Impl.sol:EIP712Impl --broadcast --account index0
-cast send 0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd --account index0 --value 1000000000000000000
-cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "approve(address,uint256)" "0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd" "2000000"
+forge create src/ERC20Impl.sol:ERC20Impl --account index0
+cast send 0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd --account index0 --value 100000000000000000
+cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "balanceOf(address)" "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "approve(address,uint256)" "0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd" "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+cast estimate 0x5FbDB2315678afecb367f032d93F642f64180aa3 --account index0 "transferFrom(address,address,uint256)" "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" "0x70997970C51812dc3A010C7d01b50e0d17dc79C8" "100" --from "0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd"
+
+forge verify-contract 0x3AD89E4651e5bB40d96e8d57C42eD9003eF66D58 EIP712Impl --verifier sourcify --verifier-url https://sourcify-api-monad.blockvision.org --rpc-url https://soft-icy-darkness.monad-testnet.quiknode.pro/5a20b2ae79c3733f77c8815c01a0f4254da28524
+forge verify-contract 0xE92bC498588502D33c53B127AA9507929Dd3474A ERC20Impl --verifier sourcify --verifier-url https://sourcify-api-monad.blockvision.org --rpc-url https://soft-icy-darkness.monad-testnet.quiknode.pro/5a20b2ae79c3733f77c8815c01a0f4254da28524
+
+forge verify-contract 0xbAB2C0a241B412Ecfd7ed1b8ceC9e983f392e818 EIP712Impl --verifier blockscout --rpc-url https://rpc.sepolia-api.lisk.com  --verifier-url https://sepolia-blockscout.lisk.com/api/
+https://sepolia-blockscout.lisk.com/address/0xbAB2C0a241B412Ecfd7ed1b8ceC9e983f392e818
+forge verify-contract 0x21d0672d4fB545e3302da944269E1D0A85dfBd39 ERC20Impl --rpc-url https://rpc.sepolia-api.lisk.com --verifier blockscout --verifier-url https://sepolia-blockscout.lisk.com/api/
+https://sepolia-blockscout.lisk.com/address/0x21d0672d4fb545e3302da944269e1d0a85dfbd39
 
 rem ========== base fee 95238095 * 21000 (unit gas plain eth transfer) = $0.01
 rem ========== gas price 1 GWEI / 1000000000 WEI / $0.00
@@ -169,4 +179,4 @@ forge script script/Walle.s.sol --broadcast --rpc-url http://localhost:8545
 cast gas-price
 
 cast balance 0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd
-cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "allowance(address,address)" 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 0x87B2C1329acE83dA545B3f2703A24Cd4150F61cd
+cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "allowance(address,address)" 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 0x46f80cea883531e127bB58CBa85f829FD21f90bE
